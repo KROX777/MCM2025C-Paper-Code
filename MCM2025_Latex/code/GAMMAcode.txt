@@ -1,0 +1,29 @@
+\begin{algorithm}
+\caption{Fill Missing Values}
+\label{alg:fill_missing_values}
+\begin{algorithmic}[1]
+\State \textbf{Input}: 
+\State \quad DataFrame $merged\_df$
+\State \quad Dictionary $default\_values = \{'p\_max': 0.5, 'a\_max': 5, 'alpha': 0.2, 'beta': 0.05\}$
+\State \textbf{Output}: 
+\State \quad DataFrame $merged\_df$ with missing values filled
+
+\State $default\_values \leftarrow \{'p\_max': 0.5, 'a\_max': 5, 'alpha': 0.2, 'beta': 0.05\}$;
+\For{$i$ from $0$ to $\text{len}(merged\_df) - 1$}
+    \If{$merged\_df.loc[i, 'p\_max']$ is $\text{NaN}$}
+        \If{$i > 0$ and $merged\_df.loc[i - 1, 'p\_max'] \neq default\_values['p\_max']$}
+            \State $merged\_df.loc[i, 'p\_max'] \leftarrow merged\_df.loc[i - 1, 'p\_max'] \times 0.9$;
+            \State $merged\_df.loc[i, 'a\_max'] \leftarrow merged\_df.loc[i - 1, 'a\_max']$;
+            \State $merged\_df.loc[i, 'alpha'] \leftarrow merged\_df.loc[i - 1, 'alpha']$;
+            \State $merged\_df.loc[i, 'beta'] \leftarrow merged\_df.loc[i - 1, 'beta']$;
+        \Else
+            \State $merged\_df.loc[i, 'p\_max'] \leftarrow default\_values['p\_max']$;
+            \State $merged\_df.loc[i, 'a\_max'] \leftarrow default\_values['a\_max']$;
+            \State $merged\_df.loc[i, 'alpha'] \leftarrow default\_values['alpha']$;
+            \State $merged\_df.loc[i, 'beta'] \leftarrow default\_values['beta']$;
+        \EndIf
+    \EndIf
+\EndFor
+\State \textbf{return} $merged\_df$;
+\end{algorithmic}
+\end{algorithm}
